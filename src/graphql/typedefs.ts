@@ -147,14 +147,14 @@ export const typeDefs = [
     }
 
     """
-    A ticket is issued to an individual passenger. It may include 1-N legs
+    A ticket is issued to an individual traveler. It may include 1-N legs
     """
     type Ticket {
       id: ID!
       booking: Booking!
-      passenger: Traveler!
       ticketFlights: [Leg]
       ticketNo: String!
+      traveler: Traveler!
     }
 
     """
