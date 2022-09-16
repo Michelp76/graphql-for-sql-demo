@@ -26,7 +26,7 @@ export const typeDefs = [
       Scheduled
     }
     """
-    Represents a kind of aircraft
+    Represents a kind of aircraft (not to be confused with a particular *instance* of an aircraft)
     """
     type Aircraft {
       """
@@ -125,7 +125,7 @@ export const typeDefs = [
       flight: Flight!
       seatNo: String
       ticket: Ticket!
-      traveler: Traveler!
+      Passenger: Passenger!
     }
 
     """
@@ -148,7 +148,7 @@ export const typeDefs = [
     """
     A person who is traveling
     """
-    type Traveler {
+    type Passenger {
       id: ID!
       email: EmailAddress
       name: String!
@@ -156,14 +156,14 @@ export const typeDefs = [
     }
 
     """
-    A ticket is issued to an individual traveler. It may include 1-N legs
+    A ticket is issued to an individual Passenger. It may include 1-N legs
     """
     type Ticket {
       id: ID!
       booking: Booking!
       ticketFlights: [Leg]
       ticketNo: String!
-      traveler: Traveler!
+      Passenger: Passenger!
     }
 
     """
