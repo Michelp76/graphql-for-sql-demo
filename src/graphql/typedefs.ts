@@ -161,7 +161,7 @@ export const typeDefs = [
     type Ticket {
       id: ID!
       booking: Booking!
-      ticketFlights: [Leg]
+      legs: [Leg]
       ticketNo: String!
       Passenger: Passenger!
     }
