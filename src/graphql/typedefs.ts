@@ -162,8 +162,8 @@ export const typeDefs = [
       id: ID!
       booking: Booking!
       legs: [Leg]
-      ticketNo: String!
       passenger: Passenger!
+      ticketNo: String!
     }
 
     """
