@@ -10,13 +10,15 @@ To run, clone this repo then:
 ```
 $ npm install
 $ npm start
+```
 
 or
 
+```
 $ npm run start:watch
+```
 
 to automatically keep up with edits.
-```
 
 ## Branches
 

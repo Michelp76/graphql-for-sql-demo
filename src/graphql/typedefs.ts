@@ -167,7 +167,7 @@ export const typeDefs = [
     }
 
     type Query {
-      allBookings: [Booking]
+      allAirports: [Airport]
     }
   `,
 ];
