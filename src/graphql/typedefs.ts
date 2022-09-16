@@ -163,7 +163,7 @@ export const typeDefs = [
       booking: Booking!
       legs: [Leg]
       ticketNo: String!
-      Passenger: Passenger!
+      passenger: Passenger!
     }
 
     """
