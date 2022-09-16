@@ -67,7 +67,7 @@ export const typeDefs = [
       The name of the city that the airport serves in the language requested by the client
       """
       city: String
-      coordinates: LatLong
+      coordinates: Point
       timeZone: TimeZone
     }
 
@@ -98,15 +98,6 @@ export const typeDefs = [
     }
 
     """
-    The TimeInterval type is a pair of departure and arrival times.
-    It can be used for either scheduled or actual time pairs.
-    """
-    type TimeInterval {
-      depart: DateTime
-      arrive: DateTime
-    }
-
-    """
     A flight represents an aircraft flying between two airports on a particular date
     """
     type Flight {
@@ -124,14 +115,6 @@ export const typeDefs = [
     }
 
     """
-    The coordinates of a place on earth
-    """
-    type LatLong {
-      latitude: Latitude
-      longitude: Longitude
-    }
-
-    """
     Represents a passenger's journey from one airport to another on a given flight.
     """
     type Leg {
@@ -143,6 +126,14 @@ export const typeDefs = [
       seatNo: String
       ticket: Ticket!
       traveler: Traveler!
+    }
+
+    """
+    The coordinates of a place on earth
+    """
+    type Point {
+      latitude: Latitude
+      longitude: Longitude
     }
 
     """
@@ -164,6 +155,15 @@ export const typeDefs = [
       passenger: Traveler!
       ticketFlights: [Leg]
       ticketNo: String!
+    }
+
+    """
+    The TimeInterval type is a pair of departure and arrival times.
+    It can be used for either scheduled or actual time pairs.
+    """
+    type TimeInterval {
+      depart: DateTime
+      arrive: DateTime
     }
 
     type Query {
