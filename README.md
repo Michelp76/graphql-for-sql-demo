@@ -18,6 +18,10 @@ $ npm run start:watch
 to automatically keep up with edits.
 ```
 
+## Branches
+
+This repository uses git branches to support different examples that require different versions of the code. Make sure you checkout the branch appropriate to the example you want to follow.
+
 # data
 
 The data used is taken from [the PostgresPro airline booking example](https://postgrespro.com/docs/postgrespro/10/demodb-bookings-installation). Please follow the instructions there to download the data and load it into your local postgres.
