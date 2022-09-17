@@ -1,3 +1,5 @@
+// The context function is typically used to handle things like cookies, authentication, jwt
+// When running the graphql server as express, the express req and res objects are available to it
 import { logGraphQlQueries } from './logGraphQlQueries';
 
 interface Props {
