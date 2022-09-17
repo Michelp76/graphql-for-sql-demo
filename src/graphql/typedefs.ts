@@ -125,7 +125,7 @@ export const typeDefs = [
       flight: Flight!
       seatNo: String
       ticket: Ticket!
-      Passenger: Passenger!
+      passenger: Passenger!
     }
 
     """
@@ -137,15 +137,6 @@ export const typeDefs = [
     }
 
     """
-    An aircraft has a number of seats each with their own number-letter code
-    """
-    type Seat {
-      seatNo: String
-      aircraft: Aircraft
-      fareConditions: FareConditions!
-    }
-
-    """
     A person who is traveling
     """
     type Passenger {
@@ -153,6 +144,15 @@ export const typeDefs = [
       email: EmailAddress
       name: String!
       phone: PhoneNumber
+    }
+
+    """
+    An aircraft has a number of seats each with their own number-letter code
+    """
+    type Seat {
+      seatNo: String
+      aircraft: Aircraft
+      fareConditions: FareConditions!
     }
 
     """
