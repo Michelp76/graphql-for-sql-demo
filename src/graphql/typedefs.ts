@@ -30,7 +30,7 @@ export const typeDefs = [
     """
     type Aircraft {
       """
-      For the purpose of this demo the id is the aircraftCode
+      For the purpose of this demo the id == the aircraftCode
       """
       id: ID!
       """
@@ -52,7 +52,7 @@ export const typeDefs = [
     """
     type Airport {
       """
-      For the purpose of this demo the id is the same as the airportCode
+      For the purpose of this demo the id == the airportCode
       """
       id: ID!
       """
@@ -76,7 +76,7 @@ export const typeDefs = [
     """
     type Booking {
       """
-      For the purpose of this demo the id of the booking is the same as the reference
+      For the purpose of this demo the id of the booking == the reference
       """
       id: ID!
       """
