@@ -68,7 +68,7 @@ export const typeDefs = [
       """
       city: String
       coordinates: Point
-      timeZone: TimeZone
+      timezone: String
     }
 
     """
