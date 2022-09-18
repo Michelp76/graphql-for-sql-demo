@@ -4,7 +4,7 @@ import { makeExecutableSchema } from '@graphql-tools/schema';
 import { mutations } from '../mutations';
 import { resolvers } from '../resolvers';
 import { resolvers as scalarResolvers } from 'graphql-scalars';
-import { typeDefs } from '../typedefs';
+import { typeDefs } from '../typeDefs';
 
 export const schema = makeExecutableSchema({
   typeDefs,
