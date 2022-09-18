@@ -1,5 +1,7 @@
 const nodeExternals = require('webpack-node-externals');
 const webpack = require('webpack');
+const Dotenv = require('dotenv-webpack');
+
 const path = require('path');
 
 var webpack_opts = {
@@ -23,6 +25,7 @@ var webpack_opts = {
     libraryTarget: 'commonjs2',
   },
   plugins: [
+    new Dotenv(),
     new webpack.LoaderOptionsPlugin({
       options: {
         test: /\.ts$/,

@@ -1,2 +1,2 @@
-import { database } from '../../apis/database';
-export const resolvers = () => {};
+import { queryResolvers } from './queries';
+export const resolvers = { ...queryResolvers };

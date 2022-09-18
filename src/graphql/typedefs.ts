@@ -68,7 +68,7 @@ export const typeDefs = [
       """
       city: String
       coordinates: Point
-      timeZone: TimeZone
+      timezone: String
     }
 
     """
@@ -176,6 +176,9 @@ export const typeDefs = [
     }
 
     type Query {
+      """
+      Return all airports in the database
+      """
       allAirports: [Airport]
     }
   `,

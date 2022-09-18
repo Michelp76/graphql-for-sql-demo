@@ -1,4 +1,5 @@
 import knex from 'knex';
+import knexStringCase from 'knex-stringcase';
 
 const knexOptions = {
   client: 'postgresql',
@@ -18,4 +19,4 @@ const knexOptions = {
   },
 };
 
-export const database = knex(knexOptions);
+export const database = knex(knexStringCase(knexOptions));
