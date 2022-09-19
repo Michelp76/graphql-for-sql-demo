@@ -2,11 +2,17 @@
 
 import { makeExecutableSchema } from '@graphql-tools/schema';
 import { mutations } from '../mutations';
-import { resolvers } from '../resolvers';
+import { queryResolvers } from '../resolvers/queries';
 import { resolvers as scalarResolvers } from 'graphql-scalars';
 import { typeDefs } from '../typeDefs';
+import { typeResolvers } from '../resolvers/typeResolvers';
 
 export const schema = makeExecutableSchema({
   typeDefs,
-  resolvers: { ...scalarResolvers, ...resolvers, ...mutations },
+  resolvers: {
+    ...scalarResolvers,
+    ...typeResolvers,
+    ...queryResolvers,
+    ...mutations,
+  },
 });
