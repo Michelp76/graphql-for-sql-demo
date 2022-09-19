@@ -132,8 +132,8 @@ export const typeDefs = [
     The coordinates of a place on earth
     """
     type Point {
-      latitude: Latitude
-      longitude: Longitude
+      x: Longitude
+      y: Latitude
     }
 
     """
