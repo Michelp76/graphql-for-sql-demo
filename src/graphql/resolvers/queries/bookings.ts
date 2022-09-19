@@ -4,10 +4,7 @@ interface tReference {
   reference: string;
 }
 
-export const oneBooking = async (
-  _: object,
-  { reference: bookRef }: tReference
-) =>
+export const oneBooking = (_: object, { reference: bookRef }: tReference) =>
   database('bookings')
     .where({ bookRef })
     .columns(
