@@ -17,9 +17,9 @@ export const typeResolvers = {
     city: ({ city }: tCity, _: object, { req }: tContext) => city[req.language],
   },
   Booking: {
-    tickets: ({ id }: { id: string }) =>
+    tickets: ({ id: bookRef }: { id: string }) =>
       database('tickets')
-        .where({ bookRef: id })
+        .where({ bookRef })
         .columns({ id: 'ticketNo' }, '*')
         .select(),
   },
