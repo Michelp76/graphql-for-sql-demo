@@ -1,6 +1,9 @@
-import { allAirports } from './allAirports';
+import * as airports from './airports';
+import * as bookings from './bookings';
+
 export const queryResolvers = {
   Query: {
-    allAirports,
+    ...airports,
+    ...bookings,
   },
 };

@@ -87,14 +87,14 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _resolvers__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../resolvers */ "./src/graphql/resolvers/index.ts");
 /* harmony import */ var graphql_scalars__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! graphql-scalars */ "graphql-scalars");
 /* harmony import */ var graphql_scalars__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(graphql_scalars__WEBPACK_IMPORTED_MODULE_3__);
-/* harmony import */ var _typedefs__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../typedefs */ "./src/graphql/typedefs.ts");
+/* harmony import */ var _typeDefs__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../typeDefs */ "./src/graphql/typeDefs.ts");
 
 
 
 
 
 const schema = (0,_graphql_tools_schema__WEBPACK_IMPORTED_MODULE_0__.makeExecutableSchema)({
-    typeDefs: _typedefs__WEBPACK_IMPORTED_MODULE_4__.typeDefs,
+    typeDefs: _typeDefs__WEBPACK_IMPORTED_MODULE_4__.typeDefs,
     resolvers: Object.assign(Object.assign(Object.assign({}, graphql_scalars__WEBPACK_IMPORTED_MODULE_3__.resolvers), _resolvers__WEBPACK_IMPORTED_MODULE_2__.resolvers), _mutations__WEBPACK_IMPORTED_MODULE_1__.mutations),
 });
 
@@ -117,7 +117,7 @@ const logGraphQlQueries = ({ req }) => {
         if (true) {
             if (req.body.query)
                 console.log(req.body.query);
-            if (req.body.variables)
+            if (Object.keys(req.body.variables).length)
                 console.log(req.body.variables);
         }
         else {}
@@ -156,16 +156,18 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "resolvers": () => (/* binding */ resolvers)
 /* harmony export */ });
 /* harmony import */ var _queries__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./queries */ "./src/graphql/resolvers/queries/index.ts");
+/* harmony import */ var _typeResolvers__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./typeResolvers */ "./src/graphql/resolvers/typeResolvers/index.ts");
 
-const resolvers = Object.assign({}, _queries__WEBPACK_IMPORTED_MODULE_0__.queryResolvers);
+
+const resolvers = Object.assign(Object.assign({}, _typeResolvers__WEBPACK_IMPORTED_MODULE_1__.typeResolvers), _queries__WEBPACK_IMPORTED_MODULE_0__.queryResolvers);
 
 
 /***/ }),
 
-/***/ "./src/graphql/resolvers/queries/allAirports.ts":
-/*!******************************************************!*\
-  !*** ./src/graphql/resolvers/queries/allAirports.ts ***!
-  \******************************************************/
+/***/ "./src/graphql/resolvers/queries/airports.ts":
+/*!***************************************************!*\
+  !*** ./src/graphql/resolvers/queries/airports.ts ***!
+  \***************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 __webpack_require__.r(__webpack_exports__);
@@ -184,8 +186,41 @@ var __awaiter = (undefined && undefined.__awaiter) || function (thisArg, _argume
 };
 
 const allAirports = () => __awaiter(void 0, void 0, void 0, function* () {
-    const airports = yield (0,_apis_database__WEBPACK_IMPORTED_MODULE_0__.database)('airports').select(['*']);
-    return airports;
+    return (0,_apis_database__WEBPACK_IMPORTED_MODULE_0__.database)('airports_data')
+        .columns({ id: 'airportCode' }, '*')
+        .orderBy('airportCode')
+        .select();
+});
+
+
+/***/ }),
+
+/***/ "./src/graphql/resolvers/queries/bookings.ts":
+/*!***************************************************!*\
+  !*** ./src/graphql/resolvers/queries/bookings.ts ***!
+  \***************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "oneBooking": () => (/* binding */ oneBooking)
+/* harmony export */ });
+/* harmony import */ var _apis_database__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../../apis/database */ "./src/apis/database.ts");
+var __awaiter = (undefined && undefined.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
+
+const oneBooking = (_, { reference: bookRef }) => __awaiter(void 0, void 0, void 0, function* () {
+    return (0,_apis_database__WEBPACK_IMPORTED_MODULE_0__.database)('bookings')
+        .where({ bookRef })
+        .columns({ id: 'bookRef' }, { reference: 'bookRef' }, { bookedAt: 'bookDate' }, '*')
+        .first();
 });
 
 
@@ -201,20 +236,59 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "queryResolvers": () => (/* binding */ queryResolvers)
 /* harmony export */ });
-/* harmony import */ var _allAirports__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./allAirports */ "./src/graphql/resolvers/queries/allAirports.ts");
+/* harmony import */ var _airports__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./airports */ "./src/graphql/resolvers/queries/airports.ts");
+/* harmony import */ var _bookings__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./bookings */ "./src/graphql/resolvers/queries/bookings.ts");
+
 
 const queryResolvers = {
-    Query: {
-        allAirports: _allAirports__WEBPACK_IMPORTED_MODULE_0__.allAirports,
+    Query: Object.assign(Object.assign({}, _airports__WEBPACK_IMPORTED_MODULE_0__), _bookings__WEBPACK_IMPORTED_MODULE_1__),
+};
+
+
+/***/ }),
+
+/***/ "./src/graphql/resolvers/typeResolvers/index.ts":
+/*!******************************************************!*\
+  !*** ./src/graphql/resolvers/typeResolvers/index.ts ***!
+  \******************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "typeResolvers": () => (/* binding */ typeResolvers)
+/* harmony export */ });
+/* harmony import */ var _apis_database__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../../apis/database */ "./src/apis/database.ts");
+var __awaiter = (undefined && undefined.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
+
+const typeResolvers = {
+    Airport: {
+        airportName: ({ airportName }, _, { req }) => airportName[req.language],
+        city: ({ city }, _, { req }) => city[req.language],
+    },
+    Booking: {
+        tickets: ({ id }) => __awaiter(void 0, void 0, void 0, function* () {
+            return (0,_apis_database__WEBPACK_IMPORTED_MODULE_0__.database)('tickets')
+                .where({ bookRef: id })
+                .columns({ id: 'ticketNo' })
+                .select();
+        }),
     },
 };
 
 
 /***/ }),
 
-/***/ "./src/graphql/typedefs.ts":
+/***/ "./src/graphql/typeDefs.ts":
 /*!*********************************!*\
-  !*** ./src/graphql/typedefs.ts ***!
+  !*** ./src/graphql/typeDefs.ts ***!
   \*********************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
@@ -356,11 +430,12 @@ const typeDefs = [
     }
 
     """
-    The coordinates of a place on earth
+    The coordinates of a place on earth. We use x and y as names because the knex driver automatically
+    converts postgres POINT geometries to {x,y}
     """
     type Point {
-      latitude: Latitude
-      longitude: Longitude
+      x: Longitude
+      y: Latitude
     }
 
     """
@@ -407,6 +482,11 @@ const typeDefs = [
       Return all airports in the database
       """
       allAirports: [Airport]
+
+      """
+      Fetch a particular booking
+      """
+      oneBooking(reference: String!): Booking
     }
   `,
 ];

@@ -129,11 +129,12 @@ export const typeDefs = [
     }
 
     """
-    The coordinates of a place on earth
+    The coordinates of a place on earth. x and y are used as names because the knex driver automatically
+    converts postgres POINT geometries to {x,y}.
     """
     type Point {
-      latitude: Latitude
-      longitude: Longitude
+      x: Longitude
+      y: Latitude
     }
 
     """
@@ -180,6 +181,11 @@ export const typeDefs = [
       Return all airports in the database
       """
       allAirports: [Airport]
+
+      """
+      Fetch a particular booking
+      """
+      oneBooking(reference: String!): Booking
     }
   `,
 ];

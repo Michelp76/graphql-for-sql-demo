@@ -1,2 +1,3 @@
 import { queryResolvers } from './queries';
-export const resolvers = { ...queryResolvers };
+import { typeResolvers } from './typeResolvers';
+export const resolvers = { ...typeResolvers, ...queryResolvers };
