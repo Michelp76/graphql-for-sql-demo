@@ -1,4 +1,9 @@
-import { tAirportName, tCity, tContext } from '../../../typings/typings.d';
+import {
+  tAirportName,
+  tCity,
+  tContext,
+  tPassenger,
+} from '../../../typings/typings.d';
 
 import { database } from '../../../apis/database';
 
@@ -15,7 +20,19 @@ export const typeResolvers = {
     tickets: async ({ id }: { id: string }) =>
       database('tickets')
         .where({ bookRef: id })
-        .columns({ id: 'ticketNo' })
+        .columns({ id: 'ticketNo' }, '*')
         .select(),
+  },
+  Ticket: {
+    passenger: ({
+      passengerId,
+      passengerName,
+      contactData: { email, phone },
+    }: tPassenger) => ({
+      id: passengerId,
+      name: passengerName,
+      email,
+      phone,
+    }),
   },
 };

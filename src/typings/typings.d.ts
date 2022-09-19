@@ -32,6 +32,15 @@ export interface tCoordinates {
   };
 }
 
+export interface tPassenger {
+  passengerId: string;
+  passengerName: string;
+  contactData?: {
+    email: string;
+    phone: string;
+  };
+}
+
 export interface tReq {
   acceptsLanguages: (...args: string[]) => string;
   body: { query?: string; variables?: string };
