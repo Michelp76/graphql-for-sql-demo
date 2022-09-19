@@ -25,14 +25,9 @@ export const typeResolvers = {
   },
   Ticket: {
     passenger: ({
-      passengerId,
-      passengerName,
+      passengerId: id,
+      passengerName: name,
       contactData: { email, phone },
-    }: tPassenger) => ({
-      id: passengerId,
-      name: passengerName,
-      email,
-      phone,
-    }),
+    }: tPassenger) => ({ id, name, email, phone }),
   },
 };
