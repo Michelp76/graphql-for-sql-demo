@@ -2,22 +2,12 @@ import {
   tAirportName,
   tCity,
   tContext,
+  tFlight,
   tPassenger,
   tTicket,
 } from '../../../typings/typings.d';
 
 import { database } from '../../../apis/database';
-
-interface tFlight {
-  flightId: number;
-  flightNo: string;
-  aircraftCode: string;
-  actualDeparture: Date;
-  actualArrival: Date;
-  scheduledDeparture: Date;
-  scheduledArrival: Date;
-  status: string;
-}
 
 export const typeResolvers = {
   Airport: {
@@ -28,6 +18,7 @@ export const typeResolvers = {
     ) => airportName[req.language],
     city: ({ city }: tCity, _: object, { req }: tContext) => city[req.language],
   },
+
   Booking: {
     tickets: ({ id: bookRef }: { id: string }) =>
       database('tickets')
@@ -35,27 +26,35 @@ export const typeResolvers = {
         .columns({ id: 'ticketNo' }, '*')
         .select(),
   },
+
+  Flight: {
+    actual: ({
+      actualArrival: arrival,
+      actualDeparture: departure,
+    }: tFlight) => ({ actual: { arrival, departure } }),
+    aircraft: ({ aircraftCode }: tFlight) =>
+      database('aircrafts').where({ aircraftCode }).first(),
+    arrivalAirport: ({ arrivalAirport: airportCode }: tFlight) =>
+      database('airports').where({ airportCode }).first(),
+    departureAirport: ({
+      departureAirport: airportCode,
+    }: {
+      departureAirport: string;
+    }) => database('airports').where({ airportCode }).first(),
+    id: ({ flightId: id }: tFlight) => id,
+    scheduled: ({
+      scheduledArrival: arrival,
+      scheduledDeparture: departure,
+    }: tFlight) => ({ scheduled: { arrival, departure } }),
+  },
+
   Leg: {
-    flight: ({
-      flightId: id,
-      flightNo,
-      scheduledArrival,
-      scheduledDeparture,
-      actualArrival,
-      actualDeparture,
-      status,
-    }: tFlight) => {
-      return {
-        id,
-        flightNo,
-        actual: { departure: actualDeparture, arrival: actualArrival },
-        scheduled: { departure: scheduledDeparture, arrival: scheduledArrival },
-        status,
-      };
-    },
+    flight: ({ flightId }: tFlight) =>
+      database('flights').where({ flightId }).first(),
     ticket: ({ ticketNo }: tTicket) =>
       database('tickets').where({ ticketNo }).first(),
   },
+
   Ticket: {
     passenger: ({
       passengerId: id,

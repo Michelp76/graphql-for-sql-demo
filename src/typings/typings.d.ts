@@ -32,6 +32,19 @@ export interface tCoordinates {
   };
 }
 
+export interface tFlight {
+  actualArrival: Date;
+  actualDeparture: Date;
+  aircraftCode: string;
+  arrivalAirport: string;
+  departureAirport: string;
+  flightNo: string;
+  flightId: string;
+  scheduledArrival: Date;
+  scheduledDeparture: Date;
+  status: string;
+}
+
 export interface tPassenger {
   passengerId: string;
   passengerName: string;
