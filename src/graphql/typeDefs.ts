@@ -115,19 +115,6 @@ export const typeDefs = [
     }
 
     """
-    Represents a passenger's journey from one airport to another on a given flight.
-    """
-    type Leg {
-      id: ID!
-      amount: Float!
-      boardingNo: NonNegativeInt
-      fareConditions: FareConditions!
-      flight: Flight!
-      seatNo: String
-      ticket: Ticket!
-    }
-
-    """
     The coordinates of a place on earth
     """
     type Point {
@@ -160,7 +147,6 @@ export const typeDefs = [
     type Ticket {
       id: ID!
       booking: Booking!
-      legs: [Leg]
       passenger: Passenger!
       ticketNo: String!
     }
