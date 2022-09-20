@@ -186,6 +186,15 @@ export const typeDefs = [
       Fetch a particular booking
       """
       oneBooking(reference: String!): Booking
+
+      """
+      Fetch a particular leg - could be used for a passenger manifest
+      """
+      fetchLegs(
+        flightNo: String!
+        departureDate: String!
+        departureAirport: String!
+      ): [Leg]
     }
   `,
 ];

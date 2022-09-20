@@ -48,3 +48,11 @@ export interface tReq {
   language?: string;
   user?: { id: string };
 }
+
+export interface tTicket {
+  ticketNo: string;
+  bookRef: string;
+  passengerId: number;
+  passengerName: string;
+  contactData: object;
+}
