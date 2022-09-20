@@ -125,7 +125,6 @@ export const typeDefs = [
       flight: Flight!
       seatNo: String
       ticket: Ticket!
-      passenger: Passenger!
     }
 
     """
