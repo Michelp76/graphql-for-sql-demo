@@ -1,10 +1,8 @@
 import {
-  tAirportName,
-  tCity,
+  tAirport,
   tContext,
   tFlight,
   tPassenger,
-  tTicket,
 } from '../../../typings/typings.d';
 
 import { database } from '../../../apis/database';
@@ -16,7 +14,8 @@ export const typeResolvers = {
       _: object,
       { req }: tContext
     ) => airportName[req.language],
-    city: ({ city }: tCity, _: object, { req }: tContext) => city[req.language],
+    city: ({ city }: tAirport, _: object, { req }: tContext) =>
+      city[req.language],
   },
 
   Booking: {
@@ -42,12 +41,12 @@ export const typeResolvers = {
     aircraft: ({ aircraftCode }: tFlight) =>
       database('aircrafts').where({ aircraftCode }).first(),
     arrivalAirport: ({ arrivalAirport: airportCode }: tFlight) =>
-      database('airports').where({ airportCode }).first(),
+      database('airportsData').where({ airportCode }).first(),
     departureAirport: ({
       departureAirport: airportCode,
     }: {
       departureAirport: string;
-    }) => database('airports').where({ airportCode }).first(),
+    }) => database('airportsData').where({ airportCode }).first(),
     id: ({ flightId: id }: tFlight) => id,
     scheduled: ({
       scheduledArrival: arrive,
