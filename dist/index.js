@@ -2,6 +2,44 @@
 /******/ 	"use strict";
 /******/ 	var __webpack_modules__ = ({
 
+/***/ "./src/apis/database.ts":
+/*!******************************!*\
+  !*** ./src/apis/database.ts ***!
+  \******************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "database": () => (/* binding */ database)
+/* harmony export */ });
+/* harmony import */ var knex__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! knex */ "knex");
+/* harmony import */ var knex__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(knex__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var knex_stringcase__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! knex-stringcase */ "knex-stringcase");
+/* harmony import */ var knex_stringcase__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(knex_stringcase__WEBPACK_IMPORTED_MODULE_1__);
+
+
+const knexOptions = {
+    client: 'postgresql',
+    debug: "true" === 'true',
+    connection: {
+        host: "localhost",
+        database: "demo",
+        user: "Michel",
+        password: "datagnome",
+    },
+    pool: {
+        min: 2,
+        max: 10,
+    },
+    migrations: {
+        tableName: 'knex_migrations',
+    },
+};
+const database = knex__WEBPACK_IMPORTED_MODULE_0___default()(knex_stringcase__WEBPACK_IMPORTED_MODULE_1___default()(knexOptions));
+
+
+/***/ }),
+
 /***/ "./src/graphql/apollo/context.ts":
 /*!***************************************!*\
   !*** ./src/graphql/apollo/context.ts ***!
@@ -25,7 +63,7 @@ var __awaiter = (undefined && undefined.__awaiter) || function (thisArg, _argume
 
 const context = ({ req, res }) => __awaiter(void 0, void 0, void 0, function* () {
     req.language = req.acceptsLanguages('en', 'ru') || 'en';
-    if (process.env.LOG_GRAPHQL !== 'none')
+    if (true)
         (0,_logGraphQlQueries__WEBPACK_IMPORTED_MODULE_0__.logGraphQlQueries)({ req });
     return { req, res };
 });
@@ -76,24 +114,13 @@ __webpack_require__.r(__webpack_exports__);
 const logGraphQlQueries = ({ req }) => {
     var _a;
     try {
-        if (process.env.LOG_GRAPHQL === 'verbose') {
+        if (true) {
             if (req.body.query)
                 console.log(req.body.query);
-            if (req.body.variables)
+            if (Object.keys(req.body.variables).length)
                 console.log(req.body.variables);
         }
-        else if (process.env.LOG_GRAPHQL === 'compact') {
-            const queryName = req.body.query
-                .split('\n')[1]
-                .trim()
-                .split(' ')[0]
-                .split('(')[0];
-            const operationName = req.body.query.split(' ')[0];
-            const userString = ((_a = req.user) === null || _a === void 0 ? void 0 : _a.id)
-                ? `for user ${req.user.id}`
-                : '(unauthenticated)';
-            console.log(`${operationName} ${queryName} ${userString}`);
-        }
+        else {}
     }
     catch (error) {
         console.error(error.name);
@@ -128,7 +155,133 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "resolvers": () => (/* binding */ resolvers)
 /* harmony export */ });
-const resolvers = () => { };
+/* harmony import */ var _queries__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./queries */ "./src/graphql/resolvers/queries/index.ts");
+/* harmony import */ var _typeResolvers__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./typeResolvers */ "./src/graphql/resolvers/typeResolvers/index.ts");
+
+
+const resolvers = Object.assign(Object.assign({}, _typeResolvers__WEBPACK_IMPORTED_MODULE_1__.typeResolvers), _queries__WEBPACK_IMPORTED_MODULE_0__.queryResolvers);
+
+
+/***/ }),
+
+/***/ "./src/graphql/resolvers/queries/airports.ts":
+/*!***************************************************!*\
+  !*** ./src/graphql/resolvers/queries/airports.ts ***!
+  \***************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "allAirports": () => (/* binding */ allAirports)
+/* harmony export */ });
+/* harmony import */ var _apis_database__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../../apis/database */ "./src/apis/database.ts");
+var __awaiter = (undefined && undefined.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
+
+const allAirports = () => __awaiter(void 0, void 0, void 0, function* () {
+    return (0,_apis_database__WEBPACK_IMPORTED_MODULE_0__.database)('airports_data')
+        .columns({ id: 'airportCode' }, '*')
+        .orderBy('airportCode')
+        .select();
+});
+
+
+/***/ }),
+
+/***/ "./src/graphql/resolvers/queries/bookings.ts":
+/*!***************************************************!*\
+  !*** ./src/graphql/resolvers/queries/bookings.ts ***!
+  \***************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "oneBooking": () => (/* binding */ oneBooking)
+/* harmony export */ });
+/* harmony import */ var _apis_database__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../../apis/database */ "./src/apis/database.ts");
+var __awaiter = (undefined && undefined.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
+
+const oneBooking = (_, { reference: bookRef }) => __awaiter(void 0, void 0, void 0, function* () {
+    return (0,_apis_database__WEBPACK_IMPORTED_MODULE_0__.database)('bookings')
+        .where({ bookRef })
+        .columns({ id: 'bookRef' }, { reference: 'bookRef' }, { bookedAt: 'bookDate' }, '*')
+        .first();
+});
+
+
+/***/ }),
+
+/***/ "./src/graphql/resolvers/queries/index.ts":
+/*!************************************************!*\
+  !*** ./src/graphql/resolvers/queries/index.ts ***!
+  \************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "queryResolvers": () => (/* binding */ queryResolvers)
+/* harmony export */ });
+/* harmony import */ var _airports__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./airports */ "./src/graphql/resolvers/queries/airports.ts");
+/* harmony import */ var _bookings__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./bookings */ "./src/graphql/resolvers/queries/bookings.ts");
+
+
+const queryResolvers = {
+    Query: Object.assign(Object.assign({}, _airports__WEBPACK_IMPORTED_MODULE_0__), _bookings__WEBPACK_IMPORTED_MODULE_1__),
+};
+
+
+/***/ }),
+
+/***/ "./src/graphql/resolvers/typeResolvers/index.ts":
+/*!******************************************************!*\
+  !*** ./src/graphql/resolvers/typeResolvers/index.ts ***!
+  \******************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "typeResolvers": () => (/* binding */ typeResolvers)
+/* harmony export */ });
+/* harmony import */ var _apis_database__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../../apis/database */ "./src/apis/database.ts");
+var __awaiter = (undefined && undefined.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
+
+const typeResolvers = {
+    Airport: {
+        airportName: ({ airportName }, _, { req }) => airportName[req.language],
+        city: ({ city }, _, { req }) => city[req.language],
+    },
+    Booking: {
+        tickets: ({ id }) => __awaiter(void 0, void 0, void 0, function* () {
+            return (0,_apis_database__WEBPACK_IMPORTED_MODULE_0__.database)('tickets')
+                .where({ bookRef: id })
+                .columns({ id: 'ticketNo' })
+                .select();
+        }),
+    },
+};
 
 
 /***/ }),
@@ -216,7 +369,7 @@ const typeDefs = [
       """
       city: String
       coordinates: Point
-      timeZone: TimeZone
+      timezone: String
     }
 
     """
@@ -277,11 +430,12 @@ const typeDefs = [
     }
 
     """
-    The coordinates of a place on earth
+    The coordinates of a place on earth. We use x and y as names because the knex driver automatically
+    converts postgres POINT geometries to {x,y}
     """
     type Point {
-      latitude: Latitude
-      longitude: Longitude
+      x: Longitude
+      y: Latitude
     }
 
     """
@@ -324,7 +478,15 @@ const typeDefs = [
     }
 
     type Query {
+      """
+      Return all airports in the database
+      """
       allAirports: [Airport]
+
+      """
+      Fetch a particular booking
+      """
+      oneBooking(reference: String!): Booking
     }
   `,
 ];
@@ -352,16 +514,6 @@ module.exports = require("apollo-server");
 
 /***/ }),
 
-/***/ "dotenv":
-/*!*************************!*\
-  !*** external "dotenv" ***!
-  \*************************/
-/***/ ((module) => {
-
-module.exports = require("dotenv");
-
-/***/ }),
-
 /***/ "graphql-scalars":
 /*!**********************************!*\
   !*** external "graphql-scalars" ***!
@@ -369,6 +521,26 @@ module.exports = require("dotenv");
 /***/ ((module) => {
 
 module.exports = require("graphql-scalars");
+
+/***/ }),
+
+/***/ "knex":
+/*!***********************!*\
+  !*** external "knex" ***!
+  \***********************/
+/***/ ((module) => {
+
+module.exports = require("knex");
+
+/***/ }),
+
+/***/ "knex-stringcase":
+/*!**********************************!*\
+  !*** external "knex-stringcase" ***!
+  \**********************************/
+/***/ ((module) => {
+
+module.exports = require("knex-stringcase");
 
 /***/ })
 
@@ -453,22 +625,18 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var apollo_server__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! apollo-server */ "apollo-server");
 /* harmony import */ var apollo_server__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(apollo_server__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _graphql_apollo_context__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./graphql/apollo/context */ "./src/graphql/apollo/context.ts");
-/* harmony import */ var dotenv__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! dotenv */ "dotenv");
-/* harmony import */ var dotenv__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(dotenv__WEBPACK_IMPORTED_MODULE_2__);
-/* harmony import */ var _graphql_apollo_executableSchema__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./graphql/apollo/executableSchema */ "./src/graphql/apollo/executableSchema.ts");
+/* harmony import */ var _graphql_apollo_executableSchema__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./graphql/apollo/executableSchema */ "./src/graphql/apollo/executableSchema.ts");
 
 
 
-
-dotenv__WEBPACK_IMPORTED_MODULE_2___default().config();
 const server = new apollo_server__WEBPACK_IMPORTED_MODULE_0__.ApolloServer({
-    schema: _graphql_apollo_executableSchema__WEBPACK_IMPORTED_MODULE_3__.schema,
+    schema: _graphql_apollo_executableSchema__WEBPACK_IMPORTED_MODULE_2__.schema,
     context: _graphql_apollo_context__WEBPACK_IMPORTED_MODULE_1__.context,
     cors: { origin: true, credentials: true },
     introspection: "development" !== 'production',
 });
-void server.listen(process.env.PORT).then(() => {
-    console.log(`🚀 Server ready at http://${process.env.HOST}:${process.env.PORT}`);
+void server.listen("4001").then(() => {
+    console.log(`🚀 Server ready at http://${"localhost"}:${"4001"}`);
 });
 if (false) {}
 

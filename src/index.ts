@@ -1,9 +1,6 @@
 import { ApolloServer } from 'apollo-server';
 import { context } from './graphql/apollo/context';
-import dotenv from 'dotenv';
 import { schema } from './graphql/apollo/executableSchema'; // this includes both typeDefs and resolvers
-
-dotenv.config();
 
 export const server = new ApolloServer({
   schema,

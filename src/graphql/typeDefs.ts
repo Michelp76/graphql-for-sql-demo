@@ -68,7 +68,7 @@ export const typeDefs = [
       """
       city: String
       coordinates: Point
-      timeZone: TimeZone
+      timezone: String
     }
 
     """
@@ -115,25 +115,12 @@ export const typeDefs = [
     }
 
     """
-    Represents a passenger's journey from one airport to another on a given flight.
-    """
-    type Leg {
-      id: ID!
-      amount: Float!
-      boardingNo: NonNegativeInt
-      fareConditions: FareConditions!
-      flight: Flight!
-      seatNo: String
-      ticket: Ticket!
-      passenger: Passenger!
-    }
-
-    """
-    The coordinates of a place on earth
+    The coordinates of a place on earth. x and y are used as names because the knex driver automatically
+    converts postgres POINT geometries to {x,y}.
     """
     type Point {
-      latitude: Latitude
-      longitude: Longitude
+      x: Longitude
+      y: Latitude
     }
 
     """
@@ -161,7 +148,6 @@ export const typeDefs = [
     type Ticket {
       id: ID!
       booking: Booking!
-      legs: [Leg]
       passenger: Passenger!
       ticketNo: String!
     }
@@ -176,7 +162,15 @@ export const typeDefs = [
     }
 
     type Query {
+      """
+      Return all airports in the database
+      """
       allAirports: [Airport]
+
+      """
+      Fetch a particular booking
+      """
+      oneBooking(reference: String!): Booking
     }
   `,
 ];

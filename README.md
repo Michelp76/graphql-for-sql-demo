@@ -1,4 +1,4 @@
-# pg-demo
+# graphql-for-sql-demo
 
 This repo supports graphql demos and examples which will be discussed in a series of blog posts
 which I will hopefully write.

@@ -10,7 +10,8 @@ export const logGraphQlQueries = ({ req }: Props) => {
   try {
     if (process.env.LOG_GRAPHQL === 'verbose') {
       if (req.body.query) console.log(req.body.query);
-      if (req.body.variables) console.log(req.body.variables);
+      if (Object.keys(req.body.variables).length)
+        console.log(req.body.variables);
     } else if (process.env.LOG_GRAPHQL === 'compact') {
       const queryName = req.body.query
         .split('\n')[1]
