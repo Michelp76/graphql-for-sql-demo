@@ -1,11 +1,11 @@
 import * as airports from './airports';
 import * as bookings from './bookings';
-import * as legs from './legs';
+import * as itinerary from './itinerary';
 
 export const queryResolvers = {
   Query: {
     ...airports,
     ...bookings,
-    ...legs,
+    ...itinerary,
   },
 };

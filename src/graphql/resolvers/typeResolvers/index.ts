@@ -27,11 +27,18 @@ export const typeResolvers = {
         .select(),
   },
 
+  BookingLeg: {
+    flight: ({ flightId }: { flightId: string }) =>
+      database('flights').where({ flightId }).first(),
+    ticket: ({ ticketNo }: { ticketNo: string }) =>
+      database('tickets').where({ ticketNo }).first(),
+  },
+
   Flight: {
-    actual: ({
-      actualArrival: arrival,
-      actualDeparture: departure,
-    }: tFlight) => ({ actual: { arrival, departure } }),
+    actual: ({ actualArrival: arrive, actualDeparture: depart }: tFlight) => ({
+      arrive,
+      depart,
+    }),
     aircraft: ({ aircraftCode }: tFlight) =>
       database('aircrafts').where({ aircraftCode }).first(),
     arrivalAirport: ({ arrivalAirport: airportCode }: tFlight) =>
@@ -42,10 +49,11 @@ export const typeResolvers = {
       departureAirport: string;
     }) => database('airports').where({ airportCode }).first(),
     id: ({ flightId: id }: tFlight) => id,
+
     scheduled: ({
-      scheduledArrival: arrival,
-      scheduledDeparture: departure,
-    }: tFlight) => ({ scheduled: { arrival, departure } }),
+      scheduledArrival: arrive,
+      scheduledDeparture: depart,
+    }: tFlight) => ({ arrive, depart }),
   },
 
   Leg: {
