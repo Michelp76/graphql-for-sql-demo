@@ -49,18 +49,10 @@ export const typeResolvers = {
       departureAirport: string;
     }) => database('airports').where({ airportCode }).first(),
     id: ({ flightId: id }: tFlight) => id,
-
     scheduled: ({
       scheduledArrival: arrive,
       scheduledDeparture: depart,
     }: tFlight) => ({ arrive, depart }),
-  },
-
-  Leg: {
-    flight: ({ flightId }: tFlight) =>
-      database('flights').where({ flightId }).first(),
-    ticket: ({ ticketNo }: tTicket) =>
-      database('tickets').where({ ticketNo }).first(),
   },
 
   Ticket: {
