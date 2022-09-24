@@ -9,11 +9,8 @@ import { database } from '../../../apis/database';
 
 export const typeResolvers = {
   Airport: {
-    airportName: (
-      { airportName }: tAirportName,
-      _: object,
-      { req }: tContext
-    ) => airportName[req.language],
+    airportName: ({ airportName }: tAirport, _: object, { req }: tContext) =>
+      airportName[req.language],
     city: ({ city }: tAirport, _: object, { req }: tContext) =>
       city[req.language],
   },
