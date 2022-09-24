@@ -2,10 +2,18 @@ interface tAirportCode {
   airportCode: string;
 }
 
-export interface tAirportName {
+export interface tAirport {
   airportName: {
     en: string;
     ru: string;
+  };
+  city: {
+    en: string;
+    ru: string;
+  };
+  coordinates: {
+    x: number;
+    y: number;
   };
 }
 
@@ -13,23 +21,22 @@ interface tBooking {
   id: string;
 }
 
-export interface tCity {
-  city: {
-    en: string;
-    ru: string;
-  };
-}
-
 export interface tContext {
   req: tReq;
   res?: object;
 }
 
-export interface tCoordinates {
-  coordinates: {
-    x: number;
-    y: number;
-  };
+export interface tFlight {
+  actualArrival: Date;
+  actualDeparture: Date;
+  aircraftCode: string;
+  arrivalAirport: string;
+  departureAirport: string;
+  flightNo: string;
+  flightId: string;
+  scheduledArrival: Date;
+  scheduledDeparture: Date;
+  status: string;
 }
 
 export interface tPassenger {
@@ -47,4 +54,12 @@ export interface tReq {
   headers: object;
   language?: string;
   user?: { id: string };
+}
+
+export interface tTicket {
+  ticketNo: string;
+  bookRef: string;
+  passengerId: number;
+  passengerName: string;
+  contactData: object;
 }
