@@ -24,4 +24,8 @@ export const fetchItinerary = (_: object, { reference: bookRef }: Props) =>
     })
     .where({ bookRef })
     .orderBy('flights.scheduledDeparture')
-    .select(['ticketFlights.*', 'boardingPasses.*']);
+    .select([
+      'ticketFlights.*',
+      'boardingPasses.boardingNo',
+      'boardingPasses.seatNo',
+    ]);
