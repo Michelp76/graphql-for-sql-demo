@@ -194,7 +194,7 @@ export const typeDefs = [
       oneBooking(reference: String!): Booking
 
       """
-      Fetch a particular Intinerary based on a booking reference
+      Fetch a particular Itinerary based on a booking reference
       """
       fetchItinerary(bookRef: String!): [Flight]
     }
