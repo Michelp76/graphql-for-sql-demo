@@ -1,31 +1,24 @@
 import { database } from '../../../apis/database';
-
-interface Props {
-  reference: string;
-}
+import { tTicket } from '../../../typings/typings.d';
 
 /*
-select ticket_flights.*,boarding_passes.* from ticket_flights
-join tickets on ticket_flights.ticket_no = tickets.ticket_no
-left join boarding_passes on boarding_passes.ticket_no = ticket_flights.ticket_no 
-and boarding_passes.flight_id=ticket_flights.flight_id
-where book_ref= ?
+sql: 
+  select * from "flights" 
+  where "flight_id" in (
+    select "ticket_flights"."flight_id" 
+    from "ticket_flights" inner join "tickets" 
+    on "tickets"."ticket_no" = "ticket_flights"."ticket_no" 
+    where "book_ref" = ?) 
+  order by "flights"."scheduled_departure" asc
 */
 
-export const fetchItinerary = (_: object, { reference: bookRef }: Props) =>
-  database('ticketFlights')
-    .join('tickets', 'tickets.ticketNo', 'ticket_flights.ticketNo')
-    .join('flights', 'flights.flightId', 'ticketFlights.flightId')
-    .leftJoin('boardingPasses', function () {
-      this.on('boardingPasses.ticketNo', 'ticketFlights.ticketNo').on(
-        'boardingPasses.flightId',
-        'ticketFlights.flightId'
-      );
+export const fetchItinerary = (_: object, { bookRef }: tTicket) =>
+  database('flights')
+    .select(['*'])
+    .whereIn('flightId', function () {
+      void this.select('ticketFlights.flightId')
+        .from('ticketFlights')
+        .join('tickets', 'tickets.ticketNo', 'ticketFlights.ticketNo')
+        .where({ bookRef });
     })
-    .where({ bookRef })
-    .orderBy('flights.scheduledDeparture')
-    .select([
-      'ticketFlights.*',
-      'boardingPasses.boardingNo',
-      'boardingPasses.seatNo',
-    ]);
+    .orderBy('flights.scheduledDeparture');

@@ -98,15 +98,13 @@ export const typeDefs = [
     }
 
     """
-    Model the relationships between a flight, a ticket and a boarding pass
+    A boarding pass permits a passenger to board a particular flight
     """
-    type BookingLeg {
-      flight: Flight!
-      ticket: Ticket!
-      fareConditions: String!
-      amount: Float!
+    type BoardingPass {
       boardingNo: NonNegativeInt
+      flight: Flight!
       seatNo: String
+      ticket: Ticket!
     }
 
     """
@@ -122,6 +120,7 @@ export const typeDefs = [
       The flight number is a string where the first 2 characters represent the airline and the remaining digits represent the route
       """
       flightNo: String!
+      ticketedPassengers(bookRef: String): [TicketedPassenger]
       scheduled: TimeInterval!
       status: FlightStatus!
     }
@@ -165,6 +164,16 @@ export const typeDefs = [
     }
 
     """
+    A ticketed passenger holds a ticket on a particular flight. They may or may not have a boarding pass.
+    """
+    type TicketedPassenger {
+      ticket: Ticket!
+      fareConditions: String!
+      amount: Float!
+      boardingPass: BoardingPass
+    }
+
+    """
     The TimeInterval type is a pair of departure and arrival times.
     It can be used for either scheduled or actual time pairs.
     """
@@ -185,9 +194,9 @@ export const typeDefs = [
       oneBooking(reference: String!): Booking
 
       """
-      Fetch a particular leg - could be used for a passenger manifest
+      Fetch a particular Itinerary based on a booking reference
       """
-      fetchItinerary(reference: String!): [BookingLeg]
+      fetchItinerary(bookRef: String!): [Flight]
     }
   `,
 ];
