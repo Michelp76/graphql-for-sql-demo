@@ -32,7 +32,7 @@ export const Flight = {
         );
       })
       .where(whereClause)
-      .orderBy('flights.scheduledDeparture', 'tickets.passengerName')
+      .orderBy(['flights.scheduledDeparture', 'tickets.passengerName'])
       .select(['ticketFlights.*', 'boardingPasses.*']);
   },
 
