@@ -19,6 +19,7 @@ export interface tAirport {
 
 interface tBooking {
   id: string;
+  bookDate: Date;
   bookRef: string;
 }
 
@@ -68,6 +69,6 @@ export interface tTicket {
 export interface tTicketedPassenger {
   ticketNo: string;
   flightId: number;
-  boardingNo: number;
-  seatNo: string;
+  boardingNo?: number;
+  seatNo?: string;
 }

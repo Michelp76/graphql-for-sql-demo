@@ -1,5 +1,6 @@
 import {
   tAirport,
+  tBooking,
   tContext,
   tPassenger,
   tTicketedPassenger,
@@ -24,6 +25,8 @@ export const typeResolvers = {
   },
 
   Booking: {
+    bookedAt: ({ bookDate: bookedAt }: tBooking) => bookedAt,
+    id: ({ bookRef: id }: tBooking) => id,
     tickets: ({ id: bookRef }: { id: string }) =>
       database('tickets')
         .where({ bookRef })
