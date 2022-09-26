@@ -97,16 +97,11 @@ export const typeDefs = [
       tickets: [Ticket]
     }
 
-    """
-    Model the relationships between a flight, a ticket and a boarding pass
-    """
-    type BookingLeg {
-      flight: Flight!
-      ticket: Ticket!
-      fareConditions: String!
-      amount: Float!
+    type BoardingPass {
       boardingNo: NonNegativeInt
+      flight: Flight!
       seatNo: String
+      ticket: Ticket!
     }
 
     """
@@ -122,22 +117,9 @@ export const typeDefs = [
       The flight number is a string where the first 2 characters represent the airline and the remaining digits represent the route
       """
       flightNo: String!
+      ticketedPassengers(bookRef: String): [TicketedPassenger]
       scheduled: TimeInterval!
       status: FlightStatus!
-    }
-
-    """
-    Represents a passenger's journey from one airport to another on a given flight.
-    """
-    type Leg {
-      id: ID!
-      amount: Float!
-      boardingNo: NonNegativeInt
-      fareConditions: FareConditions!
-      flight: Flight!
-      seatNo: String
-      ticket: Ticket!
-      passenger: Passenger!
     }
 
     """
@@ -174,9 +156,15 @@ export const typeDefs = [
     type Ticket {
       id: ID!
       booking: Booking!
-      legs: [Leg]
       passenger: Passenger!
       ticketNo: String!
+    }
+
+    type TicketedPassenger {
+      ticket: Ticket!
+      fareConditions: String!
+      amount: Float!
+      boardingPass: BoardingPass
     }
 
     """
@@ -200,9 +188,9 @@ export const typeDefs = [
       oneBooking(reference: String!): Booking
 
       """
-      Fetch a particular leg - could be used for a passenger manifest
+      Fetch a particular Intinerary based on a booking reference
       """
-      fetchItinerary(reference: String!): [BookingLeg]
+      fetchItinerary(bookRef: String!): [Flight]
     }
   `,
 ];

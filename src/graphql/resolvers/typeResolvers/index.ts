@@ -1,10 +1,11 @@
 import {
   tAirport,
   tContext,
-  tFlight,
   tPassenger,
+  tTicketedPassenger,
 } from '../../../typings/typings.d';
 
+import { Flight } from './Flight';
 import { database } from '../../../apis/database';
 
 export const typeResolvers = {
@@ -15,6 +16,13 @@ export const typeResolvers = {
       city[req.language],
   },
 
+  BoardingPass: {
+    flight: ({ flightId }: { flightId: string }) =>
+      database('flights').where({ flightId }).first(),
+    ticket: ({ ticketNo }: { ticketNo: string }) =>
+      database('tickets').where({ ticketNo }).first(),
+  },
+
   Booking: {
     tickets: ({ id: bookRef }: { id: string }) =>
       database('tickets')
@@ -23,33 +31,7 @@ export const typeResolvers = {
         .select(),
   },
 
-  BookingLeg: {
-    flight: ({ flightId }: { flightId: string }) =>
-      database('flights').where({ flightId }).first(),
-    ticket: ({ ticketNo }: { ticketNo: string }) =>
-      database('tickets').where({ ticketNo }).first(),
-  },
-
-  Flight: {
-    actual: ({ actualArrival: arrive, actualDeparture: depart }: tFlight) => ({
-      arrive,
-      depart,
-    }),
-    aircraft: ({ aircraftCode }: tFlight) =>
-      database('aircrafts').where({ aircraftCode }).first(),
-    arrivalAirport: ({ arrivalAirport: airportCode }: tFlight) =>
-      database('airportsData').where({ airportCode }).first(),
-    departureAirport: ({
-      departureAirport: airportCode,
-    }: {
-      departureAirport: string;
-    }) => database('airportsData').where({ airportCode }).first(),
-    id: ({ flightId: id }: tFlight) => id,
-    scheduled: ({
-      scheduledArrival: arrive,
-      scheduledDeparture: depart,
-    }: tFlight) => ({ arrive, depart }),
-  },
+  Flight,
 
   Ticket: {
     passenger: ({
@@ -57,5 +39,28 @@ export const typeResolvers = {
       passengerName: name,
       contactData: { email, phone },
     }: tPassenger) => ({ id, name, email, phone }),
+  },
+
+  TicketedPassenger: {
+    ticket: ({ ticketNo }: tTicketedPassenger) =>
+      database('tickets').where({ ticketNo }).first(),
+    boardingPass: async ({
+      ticketNo,
+      flightId,
+      boardingNo,
+      seatNo,
+    }: tTicketedPassenger) => {
+      if (boardingNo && seatNo) return { boardingNo, seatNo };
+      else if (ticketNo && flightId) {
+        const bp = await database('boardingPasses')
+          .where({ ticketNo, flightId })
+          .first();
+        if (bp)
+          return {
+            boardingNo: bp.boardingNo,
+            seatNo: bp.seatNo,
+          };
+      }
+    },
   },
 };

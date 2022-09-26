@@ -19,6 +19,7 @@ export interface tAirport {
 
 interface tBooking {
   id: string;
+  bookRef: string;
 }
 
 export interface tContext {
@@ -62,4 +63,11 @@ export interface tTicket {
   passengerId: number;
   passengerName: string;
   contactData: object;
+}
+
+export interface tTicketedPassenger {
+  ticketNo: string;
+  flightId: number;
+  boardingNo: number;
+  seatNo: string;
 }
