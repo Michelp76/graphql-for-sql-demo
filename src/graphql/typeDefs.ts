@@ -97,6 +97,9 @@ export const typeDefs = [
       tickets: [Ticket]
     }
 
+    """
+    A boarding pass permits a passenger to board a particular flight
+    """
     type BoardingPass {
       boardingNo: NonNegativeInt
       flight: Flight!
@@ -160,6 +163,9 @@ export const typeDefs = [
       ticketNo: String!
     }
 
+    """
+    A ticketed passenger holds a ticket on a particular flight. They may or may not have a boarding pass.
+    """
     type TicketedPassenger {
       ticket: Ticket!
       fareConditions: String!
