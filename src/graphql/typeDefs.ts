@@ -189,6 +189,16 @@ export const typeDefs = [
       allAirports: [Airport]
 
       """
+      Finde available seats on a given flight, optionally by class of service
+      """
+      availableSeats(
+        flightNo: String!
+        departureDate: String!
+        departureAirport: String!
+        fareConditions: FareConditions
+      ): [Seat]
+
+      """
       Fetch a particular booking
       """
       oneBooking(reference: String!): Booking
