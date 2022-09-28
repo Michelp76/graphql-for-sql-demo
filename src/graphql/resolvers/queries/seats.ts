@@ -1,5 +1,6 @@
 import { ApolloError } from 'apollo-server-errors';
 import { database } from '../../../apis/database';
+import { findFlight } from '../../helpers/findFlight';
 interface Props {
   flightNo: string;
   departureDate: string;
@@ -30,26 +31,28 @@ export const availableSeats = async (
   { flightNo, departureDate, departureAirport, fareConditions }: Props
 ) => {
   // first find the individual flight record
-  const flight = await database('flights')
-    .whereRaw(
-      `date(scheduled_departure)='${departureDate}' and flight_no='${flightNo}' and departure_airport='${departureAirport}'`
-    )
-    .first();
+  const flight = await findFlight({
+    flightNo,
+    departureDate,
+    departureAirport,
+  });
 
   // if it exists, find the seats that are not assigned boarding passes
   if (flight) {
     const { flightId, aircraftCode } = flight;
-    const seatClause1 = { flightId };
-    const seatClause2 = { aircraftCode };
+    const boardingPassClause = { flightId };
+    const seatClause = { aircraftCode };
     if (fareConditions) {
-      seatClause1['fareConditions'] = fareConditions;
-      seatClause2['fareConditions'] = fareConditions;
+      boardingPassClause['fareConditions'] = fareConditions;
+      seatClause['fareConditions'] = fareConditions;
     }
     const seats = await database('seats')
       .whereNotIn('seatNo', function () {
-        void this.select(['seatNo']).from('boardingPasses').where(seatClause1);
+        void this.select(['seatNo'])
+          .from('boardingPasses')
+          .where(boardingPassClause);
       })
-      .andWhere(seatClause2)
+      .andWhere(seatClause)
       .select(['seats.*'])
       .orderBy('seatNo');
     return seats;

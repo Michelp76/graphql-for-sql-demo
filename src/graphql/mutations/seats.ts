@@ -1,6 +1,7 @@
 import { ApolloError } from 'apollo-server-errors';
 import { availableSeats } from './../resolvers/queries/seats';
 import { database } from '../../apis/database';
+import { findFlight } from '../helpers/findFlight';
 
 interface Props {
   flightNo: string;
@@ -14,13 +15,13 @@ export const changeSeat = async (
   { flightNo, departureDate, departureAirport, passengerName, newSeat }: Props
 ) => {
   let boardingPass;
-  const flight = await database('flights')
-    .whereRaw(
-      `date(scheduled_departure)='${departureDate}' and flight_no='${flightNo}' and departure_airport='${departureAirport}'`
-    )
-    .first();
-  const { flightId } = flight;
+  const flight = await findFlight({
+    flightNo,
+    departureDate,
+    departureAirport,
+  });
   if (flight) {
+    const { flightId } = flight;
     const ticket = await database('ticketFlights')
       .join('tickets', 'ticketFlights.ticketNo', 'tickets.ticketNo')
       .where({ flightId, passengerName })
@@ -46,8 +47,6 @@ export const changeSeat = async (
         ) >= 0;
 
       if (seatIsAvailable) {
-        // new seat isn't taken
-
         const trx = await database.transaction();
         try {
           if (oneSeat) {
