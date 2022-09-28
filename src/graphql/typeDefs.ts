@@ -208,5 +208,15 @@ export const typeDefs = [
       """
       fetchItinerary(bookRef: String!): [Flight]
     }
+
+    type Mutation {
+      changeSeat(
+        flightNo: String!
+        departureDate: String!
+        departureAirport: String!
+        passengerName: String!
+        newSeat: String!
+      ): BoardingPass
+    }
   `,
 ];

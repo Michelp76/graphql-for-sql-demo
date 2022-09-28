@@ -1,5 +1,5 @@
+import { ApolloError } from 'apollo-server-errors';
 import { database } from '../../../apis/database';
-
 interface Props {
   flightNo: string;
   departureDate: string;
@@ -29,7 +29,7 @@ export const availableSeats = async (
   _: object,
   { flightNo, departureDate, departureAirport, fareConditions }: Props
 ) => {
-  // first find the individual flight record based
+  // first find the individual flight record
   const flight = await database('flights')
     .whereRaw(
       `date(scheduled_departure)='${departureDate}' and flight_no='${flightNo}' and departure_airport='${departureAirport}'`
@@ -53,5 +53,5 @@ export const availableSeats = async (
       .select(['seats.*'])
       .orderBy('seatNo');
     return seats;
-  }
+  } else throw new ApolloError(`No matching flight found!`, 'FLIGHT_NOT_FOUND');
 };
