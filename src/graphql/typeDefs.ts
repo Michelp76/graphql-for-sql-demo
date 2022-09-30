@@ -189,6 +189,16 @@ export const typeDefs = [
       allAirports: [Airport]
 
       """
+      Finde available seats on a given flight, optionally by class of service
+      """
+      availableSeats(
+        flightNo: String!
+        departureDate: String!
+        departureAirport: String!
+        fareConditions: FareConditions
+      ): [Seat]
+
+      """
       Fetch a particular booking
       """
       oneBooking(reference: String!): Booking
@@ -197,6 +207,16 @@ export const typeDefs = [
       Fetch a particular Itinerary based on a booking reference
       """
       fetchItinerary(bookRef: String!): [Flight]
+    }
+
+    type Mutation {
+      changeSeat(
+        flightNo: String!
+        departureDate: String!
+        departureAirport: String!
+        passengerName: String!
+        newSeat: String!
+      ): BoardingPass
     }
   `,
 ];

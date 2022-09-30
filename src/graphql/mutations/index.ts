@@ -1,2 +1,3 @@
-import { database } from '../../apis/database';
-export const mutations = () => {};
+import * as seats from './seats';
+
+export const mutations = { Mutation: { ...seats } };
