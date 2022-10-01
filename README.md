@@ -1,7 +1,7 @@
 # graphql-for-sql-demo
 
-This repo supports graphql demos and examples which will be discussed in a series of blog posts
-which I will hopefully write.
+This repo supports graphql demos and examples which are discussed in a series of
+[blog posts](https://michelfloyd.hashnode.dev/graphql-for-sql-developers-part-1)
 
 This basic graphql server application is written in typescript and runs against a postgres database.
 
