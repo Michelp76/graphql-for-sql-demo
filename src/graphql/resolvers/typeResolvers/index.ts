@@ -27,9 +27,9 @@ export const typeResolvers = {
   },
 
   Booking: {
-    bookedAt: ({ bookDate: bookedAt }: tBooking) => bookedAt,
+    bookedAt: ({ bookDate }: tBooking) => bookDate,
     id: ({ bookRef }: tBooking) => bookRef,
-    tickets: ({ id: bookRef }: tBooking) =>
+    tickets: ({ bookRef }: tBooking) =>
       database('tickets')
         .where({ bookRef })
         .columns({ id: 'ticketNo' }, '*')
