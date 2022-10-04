@@ -94,7 +94,7 @@ export const typeDefs = [
       """
       The ticket(s) that are linked to this booking
       """
-      tickets: [Ticket]
+      tickets: [Ticket!]!
     }
 
     """
@@ -159,6 +159,7 @@ export const typeDefs = [
     type Ticket {
       id: ID!
       booking: Booking!
+      flights: [Flight!]!
       passenger: Passenger!
       ticketNo: String!
     }
@@ -167,10 +168,11 @@ export const typeDefs = [
     A ticketed passenger holds a ticket on a particular flight. They may or may not have a boarding pass.
     """
     type TicketedPassenger {
-      ticket: Ticket!
-      fareConditions: String!
       amount: Float!
       boardingPass: BoardingPass
+      fareConditions: String!
+      flight: Flight!
+      ticket: Ticket!
     }
 
     """

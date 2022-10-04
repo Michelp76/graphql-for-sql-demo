@@ -2,7 +2,9 @@ import {
   tAirport,
   tBooking,
   tContext,
+  tFlight,
   tPassenger,
+  tTicket,
   tTicketedPassenger,
 } from '../../../typings/typings.d';
 
@@ -26,7 +28,6 @@ export const typeResolvers = {
 
   Booking: {
     bookedAt: ({ bookDate: bookedAt }: tBooking) => bookedAt,
-    id: ({ bookRef: id }: tBooking) => id,
     tickets: ({ id: bookRef }: { id: string }) =>
       database('tickets')
         .where({ bookRef })
@@ -37,6 +38,12 @@ export const typeResolvers = {
   Flight,
 
   Ticket: {
+    flights: ({ ticketNo }: tTicket) =>
+      database('flights')
+        .join('ticketFlights', 'flights.flightId', 'ticketFlights.flightId')
+        .where({ ticketNo })
+        .select(['flights.*'])
+        .orderBy('scheduledDeparture'),
     passenger: ({
       passengerId: id,
       passengerName: name,
@@ -65,5 +72,7 @@ export const typeResolvers = {
           };
       }
     },
+    flight: ({ flightId }: tFlight) =>
+      database('flights').where({ flightId }).select(['*']).first(),
   },
 };
