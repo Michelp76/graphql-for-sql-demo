@@ -28,7 +28,8 @@ export const typeResolvers = {
 
   Booking: {
     bookedAt: ({ bookDate: bookedAt }: tBooking) => bookedAt,
-    tickets: ({ id: bookRef }: { id: string }) =>
+    id: ({ bookRef }: tBooking) => bookRef,
+    tickets: ({ id: bookRef }: tBooking) =>
       database('tickets')
         .where({ bookRef })
         .columns({ id: 'ticketNo' }, '*')
@@ -38,6 +39,8 @@ export const typeResolvers = {
   Flight,
 
   Ticket: {
+    booking: ({ bookRef }: tTicket) =>
+      database('bookings').where({ bookRef }).first(),
     flights: ({ ticketNo }: tTicket) =>
       database('flights')
         .join('ticketFlights', 'flights.flightId', 'ticketFlights.flightId')
