@@ -8,6 +8,7 @@ var webpack_opts = {
   devtool: 'source-map',
   entry: './src/index.ts',
   externals: [nodeExternals()],
+  // stats: 'verbose',
 
   module: {
     rules: [

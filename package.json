@@ -18,8 +18,8 @@
   "author": "Michel Floyd",
   "license": "ISC",
   "dependencies": {
-    "@graphql-tools/schema": "^9.0.4",
-    "apollo-server": "^3.10.2",
+    "@graphql-tools/schema": "^9.0.19",
+    "apollo-server": "^3.13.0",
     "apollo-server-errors": "^3.3.1",
     "apollo-server-module-graphiql": "^1.4.0",
     "apollo-server-types": "^3.6.2",
@@ -27,6 +27,7 @@
     "dotenv": "^16.0.2",
     "graphql": "^16.6.0",
     "graphql-scalars": "^1.18.0",
+    "haversine": "^1.1.1",
     "knex": "^2.3.0",
     "knex-stringcase": "^1.4.6",
     "pg": "^8.8.0",
@@ -38,7 +39,9 @@
   },
   "devDependencies": {
     "@types/express": "^4.17.14",
+    "@types/haversine": "^1.1.8",
     "@types/jest": "^29.0.2",
+    "@types/knex": "^0.16.1",
     "@types/node": "^18.7.18",
     "@types/pg": "^8.6.5",
     "@types/uuid": "^8.3.4",

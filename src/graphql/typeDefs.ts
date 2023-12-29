@@ -159,6 +159,7 @@ export const typeDefs = [
     type Ticket {
       id: ID!
       booking: Booking!
+      flights: [TicketedPassenger!]!
       passenger: Passenger!
       ticketNo: String!
     }
@@ -167,11 +168,12 @@ export const typeDefs = [
     A ticketed passenger holds a ticket on a particular flight. They may or may not have a boarding pass.
     """
     type TicketedPassenger {
-      ticket: Ticket!
-      fareConditions: String!
       amount: Float!
+      fareConditions: String!
       boardingPass: BoardingPass
-    }
+      flight: Flight!
+      ticket: Ticket!
+}
 
     """
     The TimeInterval type is a pair of departure and arrival times.
@@ -187,6 +189,19 @@ export const typeDefs = [
       Return all airports in the database
       """
       allAirports: [Airport]
+
+      """
+      Return all tickets in the database
+      """
+      allTickets: [Ticket]
+
+      """
+      Return distance between 2 airports
+      """
+      measureDistance(
+        departureAirport: String!
+        arrivalAirport: String!
+      ): String!     
 
       """
       Finde available seats on a given flight, optionally by class of service
@@ -217,6 +232,14 @@ export const typeDefs = [
         passengerName: String!
         newSeat: String!
       ): BoardingPass
+
+      createTicket(
+        ticketNo: String!
+        bookRef: String!
+        passengerId: String! 
+        passengerName: String! 
+        contactData: String!
+      ): Ticket
     }
   `,
 ];
