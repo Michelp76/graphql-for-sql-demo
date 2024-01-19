@@ -123,6 +123,7 @@ export const typeDefs = [
       ticketedPassengers(bookRef: String): [TicketedPassenger]
       scheduled: TimeInterval!
       status: FlightStatus!
+      price: Float!
     }
 
     """
@@ -195,6 +196,16 @@ export const typeDefs = [
       """
       allTickets: [Ticket]
 
+      """
+      Lists flight between 2 locations
+      """
+      getListOfFlights(
+        departureCity: String!
+        arrivalCity: String!
+        departureTime: String!
+        arrivalTime: String!
+      ): [Flight]
+      
       """
       Return distance between 2 airports
       """

@@ -1,5 +1,4 @@
 import { tBooking, tFlight } from '../../../typings/typings.d';
-
 import { database } from '../../../apis/database';
 
 export const Flight = {
@@ -42,4 +41,13 @@ export const Flight = {
     scheduledArrival: arrive,
     scheduledDeparture: depart,
   }: tFlight) => ({ arrive, depart }),
+
+  price: async ({ flightId }: tFlight) =>
+    database('ticketFlights')
+      .where({ flightId })
+      .limit(1)
+      .pluck('amount')  // Récupère 1 seule colonne
+      .then(function (amount) {
+        return amount.toString();  // "Float cannot represent non numeric value: [\"5300.00\"]" --> rajouter .toString()
+      }),
 };

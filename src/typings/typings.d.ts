@@ -39,6 +39,7 @@ export interface tFlight {
   scheduledArrival: Date;
   scheduledDeparture: Date;
   status: string;
+  amount: number;
 }
 
 export interface tPassenger {
@@ -55,7 +56,7 @@ export interface tReq {
   body: { query?: string; variables?: string };
   headers: object;
   language?: string;
-  user?: { id: string };
+  user?: { id: string }; 
 }
 
 export interface tTicket {

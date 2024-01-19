@@ -19,13 +19,11 @@ export const measureDistance = async (
   // TODO : Haversine formula with : https://www.npmjs.com/package/@types/haversine
   const coords_departure = await database('airports_data')
     .columns({ id: 'airportCode' }, 'coordinates')
-    .orderBy('airportCode')
     .where('airportCode', departureAirport)
     .first();
 
   const coords_arrival = await database('airports_data')
     .columns({ id: 'airportCode' }, 'coordinates')
-    .orderBy('airportCode')
     .where('airportCode', arrivalAirport)
     .first();
 
